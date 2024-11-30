@@ -4,13 +4,12 @@ import networkx as nx
 
 # location name
 
-
+"""
 bbox = {29.5, 29.0, -81.0, -82.0}
 G = ox.graph_from_bbox(bbox, network_type="drive")
 
 print(f"Nodes: {len(G.nodes)}, Edges: {len(G.edges)}")
-
-
+"""
 
 """
 bounding_boxes = [
@@ -39,8 +38,8 @@ location2 = "Ocala, Florida, USA"
 G1 = ox.graph_from_place(location1, network_type="drive")
 G2 = ox.graph_from_place(location2, network_type="drive")
 
-# G = nx.compose(G1, G2)
-fig, ax = ox.plot_graph(G1, node_size=10, edge_linewidth=0.5)
+G = nx.compose(G1, G2)
+fig, ax = ox.plot_graph(G, node_size=10, edge_linewidth=0.5)
 plt.show()
 
 
