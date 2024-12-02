@@ -87,6 +87,7 @@ def get_map_stats(G):
     # Useful for analyzing the size and structure of the graph.
     print(f"Nodes: {len(G.nodes)}, Edges: {len(G.edges)}")
 
+"""
 def main():
     # 1. Downloads and combines maps into a final graph.
     # 2. Loads the final graph, prints its statistics, and visualizes it.
@@ -95,8 +96,11 @@ def main():
     Gfinal = load_map(finalMapPath)
     get_map_stats(Gfinal)
     show_map(Gfinal)
-
+"""
+"""
 if __name__ == "__main__":
     main()
+"""
 
-
+G = load_map("maps/final_graph.graphml")
+show_map(G)
