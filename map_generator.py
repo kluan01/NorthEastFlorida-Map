@@ -101,6 +101,3 @@ def main():
 if __name__ == "__main__":
     main()
 """
-
-G = load_map("maps/final_graph.graphml")
-show_map(G)
