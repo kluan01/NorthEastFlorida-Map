@@ -37,6 +37,7 @@ def dijkstra(G, start, target):
         for neighbor, edgeDict in G[currNode].items():
             for key, edgeAttributes in edgeDict.items():
                 weight = edgeAttributes.get('length')
+                #print(f"Weight is: {weight} for node {currNode}")
                 distance = currDistance + weight
 
                 if distance < shortest_distances[neighbor]:
@@ -90,5 +91,3 @@ print(f"Path: {endPath}")
 
 ensure it matches with the output from the edge data
 """
-
-G = map_generator.load_map("maps/final_graph.graphml")
