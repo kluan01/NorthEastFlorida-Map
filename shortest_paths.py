@@ -92,7 +92,6 @@ print(f"Path: {endPath}")
 
 ensure it matches with the output from the edge data
 """
-<<<<<<< HEAD
 
 G = map_generator.load_map("maps/final_graph.graphml")
 
@@ -147,12 +146,10 @@ def a_star(G, start, target):
 
     return shortest_distances, previous_nodes
 
-# Example usage:
-"""
-distances, previous_nodes = a_star(G, source, target)
-path = reconstruct_path(previous_nodes, source, target)
-print("A* Shortest Path:", path)
-print("A* Distance:", distances[target])
-"""
-=======
->>>>>>> 117e8f199af0851d9aa49c41e4a0db5caed86b75
+# # Example usage:
+# """
+# distances, previous_nodes = a_star(G, source, target)
+# path = reconstruct_path(previous_nodes, source, target)
+# print("A* Shortest Path:", path)
+# print("A* Distance:", distances[target])
+# """
