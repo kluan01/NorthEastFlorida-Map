@@ -1,11 +1,23 @@
-# This file is to provide the implementations of each search alg
-import map_generator
+# This file is to provide the implementations of each search algorithm
 import heapq
-import networkx as nx
-import matplotlib.pyplot as plt
 import math
 
-# implementation of dijkstra's alg
+# reconstructs the path returned by the algorithms
+def reconstruct_path(previous_nodes, source, target):
+    path = []
+    current_node = target
+    while current_node is not None:
+        path.append(current_node)
+        if current_node == source:
+            break
+        current_node = previous_nodes.get(current_node)
+        if current_node is None:
+            return None 
+    # makes the path go from start to target
+    path.reverse()
+    return path
+
+# implementation of Dijkstra's algorithm
 def dijkstra(G, start, target):
     # initalize dictionary to store shortest distances from source node
     shortest_distances = {}
@@ -47,59 +59,13 @@ def dijkstra(G, start, target):
             
     return shortest_distances, previous_nodes
 
-# reconstructs the path returned by one of the algs
-def reconstruct_path(previous_nodes, source, target):
-    path = []
-    current_node = target
-    while current_node is not None:
-        path.append(current_node)
-        if current_node == source:
-            break
-        current_node = previous_nodes.get(current_node)
-        if current_node is None:
-            return None 
-    # makes the path go from start to target
-    path.reverse()
-    return path
-
-# How to test Dijkstras
-"""
-Start by selecting a subgraph and ensuring testable edges exist
-subgraph = G.subgraph(list(G.nodes)[15:20])
-
-List all edges so you can see the weights and which nodes they connect
-print("Edges and their properties in the subgraph:")
-for u, v, attributes in subgraph.edges(data=True):
-    print(f"Edge from {u} to {v}")
-    for key, value in attributes.items():
-        print(f"  {key}: {value}")
-    print()
-
-choose two nodes connected by more than one intermediate vertex
-source = 84714952
-target = 84714903
-
-plot the graph
-nx.draw(subgraph, with_labels=True, node_size=500)
-plt.show()
-
-run dijkstras and it will return path and value
-distances, previous = dijkstra(subgraph, source, target)
-print("Distance:", distances[target])
-endPath = reconstruct_path(previous, source, target)
-print(f"Path: {endPath}")
-
-ensure it matches with the output from the edge data
-"""
-
-
-# Heuristic function to estimate cost in a_star (straight-line distance)
+# heuristic function to estimate cost in a_star (straight-line distance)
 def heuristic(G, node, target):
     x1, y1 = G.nodes[node]['x'], G.nodes[node]['y']
     x2, y2 = G.nodes[target]['x'], G.nodes[target]['y']
     return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
-# implementation of A* alg
+# implementation of A* algorithm
 def a_star(G, start, target):
     # initalize dictionary to store shortest distances from source node
     shortest_distances = {}
@@ -143,13 +109,3 @@ def a_star(G, start, target):
                     heapq.heappush(priority_queue, (f_value, neighbor))
             
     return shortest_distances, previous_nodes
-
-
-# # Example usage:
-# """
-# distances, previous_nodes = a_star(G, source, target)
-# path = reconstruct_path(previous_nodes, source, target)
-# print("A* Shortest Path:", path)
-# print("A* Distance:", distances[target])
-# """
-

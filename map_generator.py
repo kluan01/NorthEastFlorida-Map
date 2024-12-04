@@ -7,9 +7,10 @@ def save_map_location(location, filepath):
     # Downloads a road network graph for a specified location and saves it as a GraphML file.
     # If the file already exists, the function skips the download process.
 
-    if os.path.exists(filepath):
-        print("Graph with filepath already exists")
-    else:
+    # if os.path.exists(filepath): # <-- debugging purposes
+    #     print("Graph with filepath already exists")
+    # else:
+    if not os.path.exists(filepath):
         print(f"Downloading {location} graph...")
         G = ox.graph_from_place(location, network_type="drive")
         ox.save_graphml(G, filepath=filepath)
@@ -20,10 +21,11 @@ def save_generated_map(G, filepath):
     # Checks if the file already exists to prevent overwriting.
     # Returns True if the graph is saved, False if the file already exists.
 
-    if os.path.exists(filepath):
-        print("Graph with filepath already exists")
-        return False
-    else:
+    # if os.path.exists(filepath):  # <-- debugging purposes
+    #     print("Graph with filepath already exists")
+    #     return False
+    # else:
+    if not os.path.exists(filepath):
         print(f"Saving graph to {filepath}...")
         ox.save_graphml(G, filepath=filepath)
         print(f"Graph successfully saved")
@@ -34,7 +36,7 @@ def load_map(filepath:str) -> nx.MultiDiGraph:
     # If the file does not exist, raises a FileNotFoundError.
     # If there is an issue loading the graph, raises a ValueError.
     if os.path.exists(filepath):
-        print("Loading downloaded graph")
+        #print("Loading downloaded graph")  # <-- debugging purposes
         try:
             G = ox.load_graphml(filepath)
             return G
@@ -114,22 +116,14 @@ def get_map_stats(G):
     # Useful for analyzing the size and structure of the graph.
     print(f"Nodes: {len(G.nodes)}, Edges: {len(G.edges)}")
 
-"""
-def main():
-    # 1. Downloads and combines maps into a final graph.
-    # 2. Loads the final graph, prints its statistics, and visualizes it.
-    finalMapPath = "maps/final_graph.graphml"
-    download_final_map(finalMapPath)
-    Gfinal = load_map(finalMapPath)
-    get_map_stats(Gfinal)
-    show_map(Gfinal)
-"""
-"""
-if __name__ == "__main__":
-    main()
-"""
-# G = load_map("maps/secondFinalGraph.graphml")
-# show_map(G)
-
-# print(len(G.nodes))
-
+# generates map for new users
+def generate_map():
+    if os.path.exists("maps/FinalGraph.graphml"):
+        print("Successful map generation!\n")
+        return
+    else:
+        print("Generating map...")
+        download_final_map("maps/FinalGraph.graphml")
+        G = load_map("maps/FinalGraph.graphml")
+        if (load_map):
+            print("Successful map generation!\n")

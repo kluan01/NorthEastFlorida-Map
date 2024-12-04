@@ -2,3 +2,6 @@
 *.json
 maps/
 cache/
+future-buildout/
+venv/
+__pycache__/
