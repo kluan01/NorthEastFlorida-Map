@@ -66,19 +66,46 @@ def download_final_map(finalPath):
     location4 = "Putnam County, Florida, USA"
     filepath4 = "maps/putnam_county.graphml"
 
+    location5 = "Clay County, Florida, USA"
+    filepath5 = "maps/clay_county.graphml"
+
+    location6 = "Bradford County, Florida, USA"
+    filepath6 = "maps/bradford_county.graphml"
+
+    location7 = "Union County, Florida, USA"
+    filepath7 = "maps/union_county.graphml"
+
+    location8 = "Gilchrist County, Florida, USA"
+    filepath8 = "maps/gilchrist_county.graphml"
+
     save_map_location(location1, filepath1)
     save_map_location(location2, filepath2)
     save_map_location(location3, filepath3)
     save_map_location(location4, filepath4)
+    save_map_location(location5, filepath5)
+    save_map_location(location6, filepath6)
+    save_map_location(location7, filepath7)
+    save_map_location(location8, filepath8)
 
     G_alacua = load_map(filepath1)
     G_marion = load_map(filepath2)
     G_levy = load_map(filepath3)
     G_putnam = load_map(filepath4)
+    G_clay = load_map(filepath5)
+    G_bradford = load_map(filepath6)
+    G_union = load_map(filepath7)
+    G_gilchrist = load_map(filepath8)
 
     Gfirst = nx.compose(G_alacua, G_marion)
     Gsecond = nx.compose(G_levy, G_putnam)
-    Gfinal = nx.compose(Gfirst, Gsecond)
+
+    Gfourth = nx.compose(G_clay, G_bradford)
+    Gthird = nx.compose(G_union, G_gilchrist)
+
+    GfirstCom = nx.compose(Gfirst, Gsecond)
+    GsecondCom = nx.compose(Gthird, Gfourth)
+
+    Gfinal = nx.compose(GfirstCom, GsecondCom)
 
     save_generated_map(Gfinal, finalPath)
 
@@ -101,5 +128,8 @@ def main():
 if __name__ == "__main__":
     main()
 """
-G = load_map("maps/final_graph.graphml")
-show_map(G)
+# G = load_map("maps/secondFinalGraph.graphml")
+# show_map(G)
+
+# print(len(G.nodes))
+
