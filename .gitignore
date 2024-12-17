@@ -5,3 +5,4 @@ cache/
 future-buildout/
 venv/
 __pycache__/
+.DS_Store

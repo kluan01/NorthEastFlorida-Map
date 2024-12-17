@@ -1,6 +1,5 @@
 # This file will contain functions to get the time and previous nodes in finding shortest paths
-import shortest_paths
-import map_generator
+from backend import map_generator, shortest_paths
 import time
 import networkx as nx
 import osmnx as ox
@@ -61,8 +60,11 @@ def test_algorithms():
     # load the map
     G = map_generator.load_map("maps/FinalGraph.graphml")
 
+    # get the largest connected components
+    largest_component = max(nx.strongly_connected_components(G), key=len)
+    nodes = list(largest_component)
+
     # create random nodes for testing
-    nodes = list(G.nodes)
     start, target = random.sample(nodes, 2)
     print("Testing Algorithms...\n")
 

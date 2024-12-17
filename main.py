@@ -1,5 +1,4 @@
-import map_generator
-import graph_times
+from backend import map_generator, graph_times
 
 def main():
     map_generator.generate_map()
