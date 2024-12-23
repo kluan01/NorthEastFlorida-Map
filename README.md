@@ -8,12 +8,17 @@ A web-based application to visualize and compare shortest paths in road networks
 - Dynamic loading indicators and fun fact messages to improve user experience.
 
 ## Requirements
-  - Python 3.10 or later
-  - Dependencies listed in `requirements.txt`
-  - Node.js and npm
+To run this project, you need the following installed on your system:
+- **Python**:
+  - Version 3.10 or later.
+  - Python dependencies are listed in `requirements.txt`.
+- **Node.js**:
+  - Latest stable version recommended.
+  - Includes npm (Node Package Manager) for managing frontend dependencies.
 
 ## How to Run
 1. Clone the repository
-2. Ensure python is installed onto the device you are using or utilize a virtual environment
-3. Run the executable script, "./setup.sh"
-4. When on the web page, click Generate!
+2. Ensure python is installed onto your device or utilize a virtual environment
+3. Run the executable script  
+ `chmod +x setup.sh`<br>`./setup.sh`  
+5. Open the web page at http://localhost:3000 and click "Generate!" to start the process.
