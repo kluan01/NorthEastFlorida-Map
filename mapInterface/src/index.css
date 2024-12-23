@@ -1,3 +1,18 @@
+body, main {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    color: white;
+    background-color: black;
+}
+
 header {
     width: 100%;
     padding: 0 0.25em;
@@ -43,10 +58,10 @@ select {
     margin: 1em auto;
   }
   
-  @keyframes spin {
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
+}
 
 .content-div {
     display: flex;
@@ -55,14 +70,53 @@ select {
     align-items: center;
     text-align: center;
     min-height: 100vh; 
-  }
+}
+
 .content-div h2 {
     font-size: 3.5vh;
 }
+
 .map {
-    max-width: 90%;
-    max-height: 80vh;
-    margin: 0;
-    padding: 0;
+    display: block;
+    margin: 0 auto; 
+    max-width: 100%; 
+    max-height: 70vh; 
     object-fit: contain;
+    justify-content: right;
+    border: 2px solid rgb(0, 198, 205);
+    box-shadow: 0 4px 8px rgba(0, 198, 205, 0.8);
+    background-color: black;
+}
+
+.submit-button {
+    font-size: 2vh;
+    padding: 1.2vh 2vh;
+    color: white;
+    background: linear-gradient(135deg, rgb(0, 198, 205), rgb(0, 150, 200));
+    border: none; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease; 
+}
+
+.submit-button:hover {
+    opacity: 0.9; 
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); 
+    cursor: pointer; 
+}
+
+.results-box-dix {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    padding: 3vh 0 0 0; 
+    margin: 0 auto;
+    width: auto;
+}
+
+
+.results-text {
+    padding-bottom: 20px;
 }

@@ -75,13 +75,23 @@ def test_algorithms():
 
     # if successful -> plot and display route
     if a_star_path:
-        fig, ax = ox.plot_graph_route(G, a_star_path, route_color="blue", node_size=10, show=False)
+        fig, ax = ox.plot_graph_route(G, a_star_path, route_color="#00c6cd", node_size=10, show=False)
+        ax.margins(0)  
+        fig.tight_layout()
         output_path = "static/route.png"
-        fig.savefig(output_path, dpi=300)
+        fig.savefig(output_path, dpi=300, bbox_inches="tight")  
         plt.close(fig)
 
-    results["a_star"].update({"time": a_star_time, "distance": a_star_distance})
-    results["dijkstra"].update({"time": dijkstra_time, "distance": dijkstra_distance})
+
+    # round results to two and zero decimal points
+    results["a_star"].update({
+        "time": round(a_star_time, 2) if a_star_time else None,
+        "distance": round(a_star_distance, 0) if a_star_distance else None
+    })
+    results["dijkstra"].update({
+        "time": round(dijkstra_time, 2) if dijkstra_time else None,
+        "distance": round(dijkstra_distance, 0) if dijkstra_distance else None
+    })
 
     return results
 
