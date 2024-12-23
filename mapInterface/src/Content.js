@@ -5,9 +5,12 @@ const Content = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isTakingLong, setIsTakingLong] = useState("");
-  const API_URL = "http://localhost:5000/api/run-functions";
+  const [randomMessage, setRandomMessage] = useState("");
+  const API_GENERATE_MAP = "http://localhost:5000/api/generate-map";
+  const API_RUN_ALGORITHMS = "http://localhost:5000/api/test-algorithms";
 
   const timerRef = useRef(null);
+
   const randomMessages = [
     "This was a personal project created by Kaden Luangsouphom and Devan Parekh!",
     "Did you know that penguins can't fly?",
@@ -26,35 +29,50 @@ const Content = () => {
     setIsLoading(true);
     setError(null);
     setIsTakingLong("");
+    setRandomMessage("");
 
+    // display random message while waiting
     timerRef.current = setTimeout(() => {
-      setIsTakingLong(displayMessage());
+      setRandomMessage(displayMessage());
     }, 1000);
 
-    timerRef.current = setTimeout(() => {
-      setIsTakingLong("Generating may take longer for the first click...");
-    }, 12000);
-
     try {
-      const response = await fetch(API_URL, {
+      // generate the map
+      setIsTakingLong(
+        "Generating map...\n This may take a while for the first click..."
+      );
+      const mapResponse = await fetch(API_GENERATE_MAP, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
 
-      if (!response.ok) {
-        throw Error(`Fetch Error --> Status: ${response.status}`);
+      if (!mapResponse.ok) {
+        throw Error(`Map Generation Error --> Status: ${mapResponse.status}`);
       }
 
-      const data = await response.json();
-      setResults(data);
+      const mapData = await mapResponse.json();
+      console.log(mapData.message);
+
+      // run the algorithms
+      setIsTakingLong("Running algorithms...");
+      const algoResponse = await fetch(API_RUN_ALGORITHMS, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!algoResponse.ok) {
+        throw Error(`Algorithm Error --> Status: ${algoResponse.status}`);
+      }
+
+      const algoData = await algoResponse.json();
+      setResults(algoData);
       setError(null);
     } catch (err) {
-      console.error("Error running functions:", err);
+      console.error("Error in processing:", err);
       setError(err.message);
     } finally {
       setIsLoading(false);
       setIsTakingLong("");
-
       if (timerRef.current) {
         clearTimeout(timerRef.current);
         timerRef.current = null;
@@ -66,7 +84,7 @@ const Content = () => {
     <div className="content-div">
       <h2 style={{ marginBottom: "15px" }}>Run Pathfinding Algorithms</h2>
       <button
-        class="submit-button"
+        className="submit-button"
         onClick={handleRunFunctions}
         disabled={isLoading}
       >
@@ -76,10 +94,15 @@ const Content = () => {
       {isTakingLong && (
         <p style={{ color: "rgb(0, 198, 205)" }}>{isTakingLong}</p>
       )}
+      {isLoading && randomMessage && (
+        <p style={{ color: "rgb(0, 150, 150)", fontStyle: "italic" }}>
+          {randomMessage}
+        </p>
+      )}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!isLoading && results && (
-        <div class="results-box-dix">
-          <div class="results-text">
+        <div className="results-box-dix">
+          <div className="results-text">
             <h3>Results:</h3>
             <p>
               <strong>A*:</strong> {results.a_star.time}s,{" "}

@@ -120,7 +120,7 @@ def get_map_stats(G):
 def generate_map():
     if os.path.exists("maps/FinalGraph.graphml"):
         print("Successful map generation!\n")
-        return
+        return 
     else:
         print("Generating map...")
         download_final_map("maps/FinalGraph.graphml")
