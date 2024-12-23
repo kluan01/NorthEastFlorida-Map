@@ -38,7 +38,9 @@ const Content = () => {
 
     try {
       // generate the map
-      setIsTakingLong("Generating map...");
+      setIsTakingLong(
+        "Generating map...\n This may take a while for the first click..."
+      );
       const mapResponse = await fetch(API_GENERATE_MAP, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
