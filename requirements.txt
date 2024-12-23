@@ -17,3 +17,4 @@ shapely==2.0.4
 six==1.16.0
 urllib3==2.2.3
 Flask
+Flask-CORS
