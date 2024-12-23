@@ -1,5 +1,5 @@
 # This file will contain functions to get the time and previous nodes in finding shortest paths
-from graph_backend import map_generator, shortest_paths
+from calcGraph import map_generator, shortest_paths
 import time
 import networkx as nx
 import osmnx as ox
