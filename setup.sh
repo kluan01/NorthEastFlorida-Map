@@ -33,9 +33,20 @@ else
   exit 1
 fi
 
+# Check if port 5000 is in use
+if lsof -i:5000 > /dev/null; then
+  echo "Port 5000 is already in use. Stopping the current process..."
+  # Kill the process using the port
+  lsof -i:5000 | awk 'NR>1 {print $2}' | xargs kill -9
+  echo "Port 5000 has been cleared."
+fi
+
 # Start Flask backend
 echo "Starting Flask backend using $PYTHON_CMD..."
 $PYTHON_CMD main.py & # Run Flask backend in the background
+
+# Wait for Flask backend to initialize
+sleep 15
 
 # Start React frontend
 if [ -d "mapInterface" ]; then
@@ -47,5 +58,5 @@ else
   exit 1
 fi
 
-# Keep script running if necessary (for Flask to remain active)
+# Keep script running to allow Flask to remain active
 wait

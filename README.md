@@ -18,7 +18,7 @@ To run this project, you need the following installed on your system:
 
 ## How to Run
 1. Clone the repository
-2. Ensure python is installed onto your device or utilize a virtual environment
+2. Ensure the device you are using can manage the requirements stated above and if you cannot install dependencies globally, please set up a virtual environment before running Step 3.
 3. Run the executable script  
  `chmod +x setup.sh`<br>`./setup.sh`  
 5. Open the web page at http://localhost:3000 and click "Generate!" to start the process.

@@ -114,7 +114,7 @@ const Content = () => {
             </p>
           </div>
           <img
-            src="http://localhost:5000/api/route-image"
+            src={`http://localhost:5000/api/route-image?timestamp=${new Date().getTime()}`}
             alt="Route Visualization"
             className="map"
           />
