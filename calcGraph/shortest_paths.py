@@ -59,7 +59,7 @@ def dijkstra(G, start, target):
             
     return shortest_distances, previous_nodes
 
-# heuristic function to estimate cost in a_star (straight-line distance)
+# heuristic function to estimate cost in A* (straight-line distance)
 def heuristic(G, node, target):
     x1, y1 = G.nodes[node]['x'], G.nodes[node]['y']
     x2, y2 = G.nodes[target]['x'], G.nodes[target]['y']
