@@ -1,6 +1,3 @@
-# Northeast Florida Shortest Path Finder
-A web-based application to visualize and compare shortest paths in road networks using Dijkstra's and A* algorithms. The project processes road network data from OpenStreetMap and provides a dynamic, interactive interface.
-
 ## Features
 - Downloads and processes road network graphs for multiple counties using OSMnx.
 - Implements and compares Dijkstra's and A* algorithms for shortest path computation.
