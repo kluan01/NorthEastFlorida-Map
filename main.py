@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Endpoint to generate the map
+# Endpoint to generate map
 @app.route("/api/generate-map", methods=["POST"])
 def generate_map():
     try:
@@ -24,6 +24,7 @@ def test_algorithms():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# Endpoint to save route image
 @app.route("/api/route-image", methods=["GET"])
 def get_route_image():
     image_path = "static/route.png"

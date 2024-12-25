@@ -2,7 +2,7 @@
 
 echo "Setting up the project..."
 
-# Check for Python executable
+# check for Python executable
 PYTHON_CMD=""
 
 if command -v python3 &>/dev/null; then
@@ -14,7 +14,7 @@ else
   exit 1
 fi
 
-# Install Python dependencies
+# install Python dependencies
 if [ -f "requirements.txt" ]; then
   echo "Installing Python dependencies using $PYTHON_CMD..."
   $PYTHON_CMD -m pip install -r requirements.txt
@@ -23,32 +23,32 @@ else
   exit 1
 fi
 
-# Install Node.js dependencies in the React app directory
+# install Node.js dependencies in the React app directory
 if [ -d "mapInterface" ]; then
   echo "Installing Node.js dependencies for React app..."
   cd mapInterface && npm install
-  cd .. # Return to the root directory after installing React dependencies
+  cd .. 
 else
   echo "Error: React app directory 'mapInterface' not found!"
   exit 1
 fi
 
-# Check if port 5000 is in use
+# check if port 5000 is in use
 if lsof -i:5000 > /dev/null; then
   echo "Port 5000 is already in use. Stopping the current process..."
-  # Kill the process using the port
+  # kill the process using the port
   lsof -i:5000 | awk 'NR>1 {print $2}' | xargs kill -9
   echo "Port 5000 has been cleared."
 fi
 
-# Start Flask backend
+# start Flask backend
 echo "Starting Flask backend using $PYTHON_CMD..."
 $PYTHON_CMD main.py & # Run Flask backend in the background
 
-# Wait for Flask backend to initialize
-sleep 15
+# wait for Flask backend to initialize
+sleep 20
 
-# Start React frontend
+# start React frontend
 if [ -d "mapInterface" ]; then
   echo "Starting React frontend..."
   cd mapInterface
@@ -58,5 +58,5 @@ else
   exit 1
 fi
 
-# Keep script running to allow Flask to remain active
+# keep script running to allow Flask to remain active
 wait

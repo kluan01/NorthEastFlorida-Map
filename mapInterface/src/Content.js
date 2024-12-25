@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
 const Content = () => {
+  // initialize variables
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -8,8 +9,6 @@ const Content = () => {
   const [randomMessage, setRandomMessage] = useState("");
   const API_GENERATE_MAP = "http://localhost:5000/api/generate-map";
   const API_RUN_ALGORITHMS = "http://localhost:5000/api/test-algorithms";
-
-  const timerRef = useRef(null);
 
   const randomMessages = [
     "This was a personal project created by Kaden Luangsouphom and Devan Parekh!",
@@ -20,18 +19,24 @@ const Content = () => {
     "Did you know Ketchup was once medicine (in the 1830s)?",
   ];
 
+  // call useRef for accurate timing
+  const timerRef = useRef(null);
+
+  // function to randomly index in the randomMessages array
   const displayMessage = () => {
     const randomIndex = Math.floor(Math.random() * randomMessages.length);
     return randomMessages[randomIndex];
   };
 
+  // main function for submission
   const handleRunFunctions = async () => {
+    // set variables to default (helps with resetting)
     setIsLoading(true);
     setError(null);
     setIsTakingLong("");
     setRandomMessage("");
 
-    // display random message while waiting
+    // display random message while waiting more than 1 second
     timerRef.current = setTimeout(() => {
       setRandomMessage(displayMessage());
     }, 1000);
@@ -68,11 +73,14 @@ const Content = () => {
       setResults(algoData);
       setError(null);
     } catch (err) {
+      // error catching
       console.error("Error in processing:", err);
       setError(err.message);
     } finally {
+      // once fetch complete - set extra messages to blank
       setIsLoading(false);
       setIsTakingLong("");
+      // resets timer for random messaging
       if (timerRef.current) {
         clearTimeout(timerRef.current);
         timerRef.current = null;
