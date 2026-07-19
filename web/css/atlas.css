@@ -1,0 +1,162 @@
+/* ── The Gainesville Atlas — Field Atlas theme ─────────────────────────── */
+:root {
+  --paper: #faf7f2;
+  --panel: #f3ede3;
+  --plate: #e9e2d4;
+  --ink: #2b2620;
+  --faded: #8a7f6f;
+  --hairline: #cfc4b0;
+  --dijkstra: #c15138;
+  --astar: #1e6e64;
+  --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  line-height: 1.55;
+}
+a { color: var(--astar); }
+
+/* ── Hero ── */
+.hero { text-align: center; padding: clamp(1.75rem, 5vw, 3.5rem) 1.25rem 1.5rem; }
+.hero-kicker {
+  font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--faded); margin: 0 0 0.75rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 3.6rem); font-style: italic; font-weight: 500;
+  margin: 0 0 0.4rem; line-height: 1.12;
+}
+.hero-status { font-family: var(--mono); font-size: 0.8rem; color: var(--faded); min-height: 1.2em; margin: 0; }
+
+/* ── Plates section ── */
+.plates-section { position: relative; background: var(--panel); border-block: 2px solid var(--ink); padding: 1rem clamp(0.75rem, 3vw, 2rem) 1rem; }
+.masthead-controls {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; justify-content: center;
+  font-family: var(--sans);
+}
+select, .btn-primary, .btn-quiet, .mode-toggle button {
+  font-family: var(--sans); font-size: 0.9rem; padding: 0.5rem 0.9rem;
+  border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink);
+  border-radius: 3px; cursor: pointer; min-height: 44px; /* touch target */
+}
+.btn-primary { background: var(--ink); color: var(--paper); font-weight: 600; }
+.btn-primary:disabled, .btn-quiet:disabled, select:disabled { opacity: 0.45; cursor: not-allowed; }
+.speed-label { font-family: var(--sans); font-size: 0.8rem; color: var(--faded); display: flex; align-items: center; gap: 0.4rem; }
+input[type="range"] { accent-color: var(--ink); width: 110px; }
+.mode-toggle { display: none; border: 1.5px solid var(--ink); border-radius: 3px; overflow: hidden; }
+.mode-toggle button { border: none; min-height: 44px; }
+.mode-toggle .mode-on { background: var(--ink); color: var(--paper); }
+.hint { text-align: center; font-style: italic; color: var(--faded); font-size: 0.9rem; min-height: 1.3em; margin: 0.5rem 0; }
+
+/* ── Survey layout: one big plate + the ledger beside it ── */
+.survey-layout {
+  display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(280px, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.5rem); align-items: stretch;
+}
+.plate { margin: 0; display: flex; flex-direction: column; }
+.plate-map {
+  height: clamp(440px, 66vh, 700px); background: var(--plate);
+  border: 1.5px solid var(--ink);
+}
+.plate figcaption {
+  font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.18em;
+  padding: 0.5rem 0.1rem; color: var(--ink);
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.plate-attr { color: var(--faded); letter-spacing: 0; }
+.leaflet-container { background: var(--plate); font-family: var(--sans); cursor: crosshair; }
+.atlas-canvas { will-change: transform; }
+
+/* zoom control, restyled to match the plate */
+.leaflet-touch .leaflet-bar, .leaflet-bar { border: 1.5px solid var(--ink); border-radius: 3px; box-shadow: none; }
+.leaflet-bar a, .leaflet-touch .leaflet-bar a {
+  background: var(--paper); color: var(--ink); border-bottom-color: var(--hairline);
+}
+.leaflet-bar a:hover, .leaflet-bar a:focus { background: var(--panel); color: var(--ink); }
+.leaflet-bar a.leaflet-disabled { background: var(--panel); color: var(--hairline); }
+
+/* endpoint markers (div icons — constant size through animated zooms) */
+.atlas-endpoint { background: none; border: none; }
+.atlas-endpoint-dot {
+  display: block; width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--ink); box-sizing: border-box;
+  box-shadow: 0 0 0 2px rgba(250, 247, 242, 0.85), 0 1px 3px rgba(43, 38, 32, 0.35);
+}
+.atlas-endpoint-start { background: var(--paper); }
+.atlas-endpoint-end { background: var(--ink); }
+
+/* ── The ledger panel ── */
+.ledger {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.9rem;
+  min-width: 0;
+}
+.ledger-title {
+  font-style: italic; font-weight: 500; font-size: 1.3rem; margin: 0;
+  border-bottom: 2px solid var(--ink); padding-bottom: 0.35rem;
+}
+.ledger-table { width: 100%; border-collapse: collapse; font-family: var(--sans); }
+.ledger-table th, .ledger-table td { padding: 0.55rem 0.25rem; text-align: right; }
+.ledger-table thead th {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  border-bottom: 1px solid var(--ink); white-space: nowrap;
+}
+.ledger-table thead .col-a { color: var(--astar); }
+.ledger-table thead .col-d { color: var(--dijkstra); }
+.ledger-table tbody th {
+  text-align: left; font-weight: 400; font-family: var(--serif); font-style: italic;
+  color: var(--faded); font-size: 0.85rem;
+}
+.ledger-table tbody td { font-family: var(--mono); font-size: 1rem; font-variant-numeric: tabular-nums; }
+.ledger-table tbody tr + tr { border-top: 1px solid var(--hairline); }
+.swatch { width: 0.7em; height: 0.7em; display: inline-block; border: 1px solid var(--ink); margin-right: 0.4em; vertical-align: baseline; }
+.swatch-d { background: var(--dijkstra); } .swatch-a { background: var(--astar); }
+
+.ledger-route { margin: 0; display: grid; gap: 0.4rem; }
+.ledger-route div { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; border-top: 1px solid var(--hairline); padding-top: 0.4rem; }
+.ledger-route dt { font-style: italic; color: var(--faded); font-size: 0.85rem; }
+.ledger-route dd { margin: 0; font-family: var(--mono); font-size: 1rem; font-variant-numeric: tabular-nums; text-align: right; }
+
+.verdict { font-style: italic; margin: 0; font-size: 0.95rem; }
+.ledger-note { font-family: var(--sans); font-size: 0.75rem; color: var(--faded); margin: auto 0 0; line-height: 1.5; }
+
+/* ── Loading veil ── */
+.veil {
+  position: absolute; inset: 0; background: rgba(250, 247, 242, 0.93);
+  display: flex; align-items: center; justify-content: center; z-index: 1200;
+  border-block: 2px solid var(--ink);
+}
+.veil-inner { text-align: center; padding: 1rem; }
+.veil-title { font-style: italic; font-size: 1.5rem; margin: 0 0 0.4rem; }
+.veil-title::after { content: '…'; animation: ellipsis 1.6s steps(4) infinite; }
+@keyframes ellipsis { 0% { content: ''; } 50% { content: '…'; } 100% { content: '……'; } }
+#veil-message { font-family: var(--mono); font-size: 0.8rem; color: var(--faded); }
+.veil.veil-error .veil-title::after { content: ''; animation: none; }
+.veil.veil-hidden { display: none; }
+
+/* ── Footer ── */
+.folio-footer { border-top: 2px solid var(--ink); text-align: center; padding: 1.5rem 1rem 2.5rem; font-size: 0.9rem; }
+.footer-fine { font-size: 0.75rem; color: var(--faded); }
+
+/* ── Mobile (equal-priority experience) ─────────────────────────────── */
+@media (max-width: 900px) {
+  .survey-layout { grid-template-columns: 1fr; }
+  .plate-map { height: 52vh; min-height: 340px; }
+  .mode-toggle { display: inline-flex; }
+  .ledger { padding: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .veil-title::after { animation: none; }
+  /* Leaflet's 0.25s zoom transition (vendored leaflet.css) has no reduced-motion
+     handling of its own — zooms snap instantly for these users instead. */
+  .leaflet-zoom-animated { transition: none !important; }
+}

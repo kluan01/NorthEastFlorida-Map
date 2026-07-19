@@ -1,0 +1,23 @@
+name: tests
+
+# push covers every commit once it reaches GitHub; pull_request covers PRs.
+on:
+  push:
+  pull_request:
+
+# The test job only reads code — never grant the token write access.
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # The test suite only needs pytest — the heavy geo stack in
+      # requirements.txt is for tools/build_graph.py, which CI never runs.
+      - run: pip install pytest==8.3.4
+      - run: pytest tests/
