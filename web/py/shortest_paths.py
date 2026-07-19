@@ -12,7 +12,8 @@ def reconstruct_path(previous_nodes, source, target):
             break
         current_node = previous_nodes.get(current_node)
         if current_node is None:
-            return None 
+            return None
+
     # makes the path go from start to target
     path.reverse()
     return path
@@ -33,6 +34,9 @@ def dijkstra(G, start, target):
     # create a set of visited nodes
     visited = set()
 
+    # the website animates the search frontier and needs the exact sequence.
+    visited_order = []
+
     # create a priority queue to get the next node to explore
     priority_queue = []
     heapq.heappush(priority_queue, (0,start)) # adds start node with distance 0
@@ -44,6 +48,7 @@ def dijkstra(G, start, target):
             continue
         else:
             visited.add(currNode)
+            visited_order.append(currNode)
     
         if currNode == target:
             break
@@ -57,13 +62,18 @@ def dijkstra(G, start, target):
                     previous_nodes[neighbor] = currNode
                     heapq.heappush(priority_queue, (distance, neighbor))
             
-    return shortest_distances, previous_nodes
+    return shortest_distances, previous_nodes, visited_order
 
-# heuristic function to estimate cost in A* (straight-line distance)
 def heuristic(G, node, target):
     x1, y1 = G.nodes[node]['x'], G.nodes[node]['y']
     x2, y2 = G.nodes[target]['x'], G.nodes[target]['y']
-    return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+    # convert the degree coordinates to radians
+    lon1, lat1, lon2, lat2 = map(math.radians, (x1, y1, x2, y2))
+
+    # haversine formula: straight-line distance over the Earth's surface
+    a = math.sin((lat2 - lat1) / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2)**2
+    return 2 * 6371000 * math.asin(math.sqrt(a)) # 6,371,000 m = Earth radius
 
 # implementation of A* algorithm
 def a_star(G, start, target):
@@ -80,6 +90,7 @@ def a_star(G, start, target):
     
     # create a set of visited nodes
     visited = set()
+    visited_order = []
 
     # create a priority queue to get the next node to explore
     priority_queue = []
@@ -92,6 +103,7 @@ def a_star(G, start, target):
             continue
         else:
             visited.add(currNode)
+            visited_order.append(currNode)
     
         if currNode == target:
             break
@@ -108,4 +120,4 @@ def a_star(G, start, target):
                     f_value = tentative_g + heuristic(G, neighbor, target)
                     heapq.heappush(priority_queue, (f_value, neighbor))
             
-    return shortest_distances, previous_nodes
+    return shortest_distances, previous_nodes, visited_order
